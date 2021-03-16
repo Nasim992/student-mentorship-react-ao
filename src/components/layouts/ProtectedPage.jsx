@@ -10,14 +10,25 @@ export default function ProtectedPage({ children }) {
     useEffect(() => {
         const ckLog = async () => {
             try {
-                const ck = await axios.get('student/is-loggedin')
+                const ck = await axios.get('ao/is-loggedin')
                 //give true or false
                 if (!ck.data) {
                     //so clear the localStorage
                     CUser.logOut()
                     setAuthV(false)
                 } else {
-                    setAuthV(true)
+                    if (CUser.getCurrentuser() && CUser.getCurrentuser() !== undefined) {
+                        setAuthV(true)
+                    } else {
+                        CUser.logOut()
+                        setAuthV(false)
+                    }
+                    // if (CUser.getCurrentuser() === undefined) {
+
+                    // } else {
+
+                    // }
+
                 }
                 setLoading(false)
 
