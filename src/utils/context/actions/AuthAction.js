@@ -12,10 +12,10 @@ class AuthAction {
 
     //Logout
     Logout = () => {
-        //student/logout
+        //ao/logout
         return new Promise(async (resolve, reject) => {
             try {
-                const res = await axios.get('student/logout')
+                const res = await axios.get('ao/logout')
                 const { error, message, response } = res.data
                 if (error) {
                     reject(new Error(message))
@@ -37,12 +37,12 @@ class AuthAction {
         })
     }
 
-    //login student/user
+    //login ao/user
     login = (email, password) => {
         return new Promise(async (resolve, reject) => {
             try {
                 //hit api get response 
-                const res = await axios.post('student/login', { email, password })
+                const res = await axios.post('ao/login', { email, password })
                 const { error, message, response } = res.data
                 if (error) {
                     reject(new Error(message))
@@ -65,13 +65,13 @@ class AuthAction {
             }
         })//end promise
     }
-    //signup a user/student 
-    //@param student object{student_id,name,email,phone,parents_phone,password,present_address,photo_url}
-    signup = (student_obj) => {
+    //signup a user/ao 
+    //@param ao object{ao_id,name,email,phone,parents_phone,password,present_address,photo_url}
+    signup = (ao_obj) => {
         return new Promise(async (resolve, reject) => {
             try {
                 //hit api get response 
-                const res = await axios.post('student/signup', student_obj)
+                const res = await axios.post('ao/signup', ao_obj)
                 const { error, message, response } = res.data
                 if (error) {
                     reject(new Error(message))

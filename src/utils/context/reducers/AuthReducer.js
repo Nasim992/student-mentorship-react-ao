@@ -2,13 +2,10 @@ import Types from "../actions/Types"
 
 export const initAuthState = {
     id: "",
-    student_id: "",
     email: "",
     name: "",
     phone: "",
     photo_url: "",
-    present_address: "",
-    parents_phone: ""
 }
 
 const AuthReducer = (state, action) => {
