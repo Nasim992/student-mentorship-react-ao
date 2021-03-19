@@ -1,3 +1,6 @@
+*::-webkit-scrollbar {
+  width: 12px;
+}
 /* bootstrap */
 .bg-primary{
   background-color: #0F243C!important;
@@ -8,6 +11,11 @@
 	background-color: #0F243C;
 	border-color: #0F243C;
 }
+.btn-primary:hover{
+  background-color: #4e73df;
+  border-color: #4e73df;
+}
+
 
 .text-primary {
 	color: #0F243C !important;
@@ -57,8 +65,10 @@
 
   /* height for mobile */
   .height-overflow-y{
-    height: 50vh;
+    height: 45vh;
     overflow-y: scroll;
+    scrollbar-width: thin;          /* "auto" or "thin" */
+    /* scrollbar-color: blue orange;   scroll thumb and track */
   } 
 }
 /* ---------------------------------------------------------------------------- */
@@ -72,8 +82,9 @@
   }
   /* height for desktop */
   .height-overflow-y{
-    height: 60vh;
+    height: 55vh;
     overflow-y: scroll;
+    scrollbar-width: thin;          /* "auto" or "thin" */
   } 
 
 }

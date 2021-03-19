@@ -5,8 +5,10 @@ import Home from './../pages/dashboard/Home';
 import URL from './../../utils/helpers/URL';
 import SignUp from '../pages/auth/SignUp';
 import SignIn from './../pages/auth/SignIn';
-import TicketList from './../pages/ticket/TicketList';
 import SingleTicket from './../pages/ticket/SingleTicket';
+import TicketList from '../pages/ticket/TicketList';
+import Search from './../pages/ticket/Search';
+import Contributor from './../pages/contributor/Contributor';
 
 
 export default function Router() {
@@ -16,8 +18,10 @@ export default function Router() {
                 <Route exact path={URL.HOME} component={Home} ></Route>
                 <Route path={URL.SIGN_UP} component={SignUp}></Route>
                 <Route path={URL.SIGN_IN} component={SignIn}></Route>
-                <Route exact path={URL.TICKET_LIST} component={TicketList}></Route>
-                <Route path={URL.TICKET_LIST + "/:id"} component={SingleTicket}></Route>
+                <Route exact path={URL.TICKET_LIST + "/:type"} component={TicketList}></Route>
+                <Route exact path={URL.TICKET_LIST + "/:type/:id"} component={SingleTicket}></Route>
+                <Route exact path={URL.SEARCH_TICKET} component={Search}></Route>
+                <Route exact path={URL.CONTRIBUTOR} component={Contributor}></Route>
                 <Route default component={NotFound}></Route>
             </Switch>
         </BrowserRouter>

@@ -54,15 +54,6 @@ export default function Header({ title }) {
                         aria-labelledby="userDropdown">
 
                         <Link className="dropdown-item"
-                            to="/"
-                            target="_blank"
-                        >
-                            <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                 ID: {CUser.getCurrentuser() && CUser.getCurrentuser().ao_id}
-                        </Link>
-                        <div className="dropdown-divider"></div>
-
-                        <Link className="dropdown-item"
                             to={{ pathname: `tel:${CUser.getCurrentuser() && CUser.getCurrentuser().phone}` }}
                             target="_blank"
                         >

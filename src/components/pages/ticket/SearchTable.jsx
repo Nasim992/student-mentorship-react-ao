@@ -6,7 +6,7 @@ import Define from './../../../utils/helpers/Define';
 import moment from 'moment';
 
 
-export default function TicketTable({ type, ticket_list }) {
+export default function SearchTable({ ticket_list }) {
 
     return (
         <div>
@@ -18,7 +18,6 @@ export default function TicketTable({ type, ticket_list }) {
                             <th>Student ID#</th>
                             <th>Ticket Title</th>
                             <th>Ticket Status</th>
-                            {type === Define.TICKET_SNOOZED ? <th>Reschedule Reason & Date</th> : ""}
                             <th>Created At</th>
                             <th>Option</th>
                         </tr>
@@ -31,7 +30,6 @@ export default function TicketTable({ type, ticket_list }) {
                                     <td>{item.student_id}</td>
                                     <td>{item.ticket_title}</td>
                                     <td>{item.ticket_state}</td>
-                                    {item.ticket_state === Define.TICKET_SNOOZED ? <td>{item.reschedule_reason + " , Date: " + moment(item.reschedule_date).format(Define.FORMAT_DATE)}</td> : ""}
                                     <td>{moment(item.created_at).format(Define.FORMAT_DATE)}</td>
                                     <td>{<Link to={URL.TICKET_LIST + "/" + item.ticket_state + "/" + item.id} >View </Link>}</td>
                                 </tr>

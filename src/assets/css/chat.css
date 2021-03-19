@@ -37,7 +37,7 @@
     margin: 0 20px 10px 0;
     clear: both;
     color: #fff;
-    background-color: #62a8ea;
+    background-color: #4e73df;
     border-radius: 4px;
         -webkit-box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
     box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
@@ -58,7 +58,7 @@
     height: 0;
     content: '';
     border: 5px solid transparent;
-    border-left-color: #62a8ea
+    border-left-color: #4e73df
 }
 
 .chat-content>p:last-child {
