@@ -24,9 +24,9 @@ export default function Main({ children, title }) {
             </div>
             {/* <!-- End of Page Wrapper --> */}
             {/* <!-- Scroll to Top Button--> */}
-            <a className="scroll-to-top rounded" href="#page-top">
+            {/* <a className="scroll-to-top rounded" href="#page-top">
                 <i className="fas fa-angle-up"></i>
-            </a>
+            </a> */}
             {/* <!-- Logout Modal--> */}
             <LogoutModal />
             {/* <!-- content end --> */}

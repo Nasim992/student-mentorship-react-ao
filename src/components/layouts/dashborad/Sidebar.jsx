@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import logo from '../../../assets/img/logo.webp'
 import URL from '../../../utils/helpers/URL';
+import Define from './../../../utils/helpers/Define';
 
 export default function Sidebar() {
     return (
@@ -30,30 +31,44 @@ export default function Sidebar() {
                 <div className="sidebar-heading">
                     Options
                 </div>
-                <li className="nav-item ">
+                {/* <li className="nav-item ">
                     <NavLink exact activeClassName="active" className="nav-link" to={URL.TICKET_LIST}>
                         <i className="fas fa-fw fa-award"></i>
                         <span>Ticket List</span>
                     </NavLink>
-                </li>
-
-                {/*
-                eita lagbe admin panel e;
-                
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ticket-list" aria-expanded="true" aria-controls="ticket-list">
-                        <i class="fas fa-fw fa-cog"></i>
-                        <span>Ticket List</span>
-                    </a>
-                    <div id="ticket-list" class="collapse" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <NavLink className="collapse-item" to={URL.TICKET_LIST}>Processing</NavLink>
-                        </div>
-                    </div>
                 </li> */}
 
-
+                <li className="nav-item">
+                    <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#ticket-list" aria-expanded="true" aria-controls="ticket-list">
+                        <i className="fas fa-fw fa-cog"></i>
+                        <span>Ticket List</span>
+                    </a>
+                    <div id="ticket-list" className="collapse" data-parent="#accordionSidebar">
+                        <div className="bg-white py-2 collapse-inner rounded">
+                            <NavLink className="collapse-item" to={URL.TICKET_LIST + "/" + Define.TICKET_PENDING}>Pending</NavLink>
+                        </div>
+                        <div className="bg-white py-2 collapse-inner rounded">
+                            <NavLink className="collapse-item" to={URL.TICKET_LIST + "/" + Define.TICKET_PROCESSING}>Processing</NavLink>
+                        </div>
+                        <div className="bg-white py-2 collapse-inner rounded">
+                            <NavLink className="collapse-item" to={URL.TICKET_LIST + "/" + Define.TICKET_SNOOZED}>Snoozed</NavLink>
+                        </div>
+                        <div className="bg-white py-2 collapse-inner rounded">
+                            <NavLink className="collapse-item" to={URL.TICKET_LIST + "/" + Define.TICKET_COMPLETED}>Completed</NavLink>
+                        </div>
+                        <div className="bg-white py-2 collapse-inner rounded">
+                            <NavLink className="collapse-item" to={URL.SEARCH_TICKET}>Search</NavLink>
+                        </div>
+                    </div>
+                </li>
                 <hr className="sidebar-divider d-none d-md-block" />
+
+                <li className="nav-item ">
+                    <NavLink exact activeClassName="active" className="nav-link" to={URL.CONTRIBUTOR}>
+                        <i className="fas fa-fw fa-award"></i>
+                        <span>Contributor List</span>
+                    </NavLink>
+                </li>
 
                 {/* <!-- Sidebar Toggler (Sidebar) --> */}
                 <div className="text-center d-none d-md-inline mt-2">

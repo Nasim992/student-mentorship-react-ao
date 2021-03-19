@@ -13,7 +13,7 @@ const CUser = {
     },//return a ao object
 
     isLoggedIn: () => {
-        if (localStorage.getItem(Define.C_USER)) {
+        if (localStorage.getItem(Define.C_USER) != null) {
             const user = JSON.parse(localStorage.getItem(Define.C_USER))
             if (user.id) {
                 return true
