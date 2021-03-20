@@ -1,6 +1,12 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Card, Col, Row } from 'react-bootstrap'
+import CUser from './../../../utils/helpers/CUser';
+
+import pendingImg from '../../../assets/img/pending.svg'
+import completedImg from '../../../assets/img/completed.svg'
+import snoozedImg from '../../../assets/img/snoozed.svg'
+import processingImg from '../../../assets/img/processing.svg'
 
 export default function TicketSummary() {
 
@@ -14,7 +20,7 @@ export default function TicketSummary() {
     useEffect(() => {
         const source = axios.CancelToken.source();
         const load = async () => {
-            const res = await axios.get('support/ticket-summary/2', { cancelToken: source.token })
+            const res = await axios.get(`support/summary/ao/${CUser.getCurrentuser() && CUser.getCurrentuser().id}`, { cancelToken: source.token })
             setSummary(res.data.response)
         }
         load()
@@ -36,7 +42,8 @@ export default function TicketSummary() {
                         <Card.Body>
                             <div className="media d-flex">
                                 <div className="align-self-center">
-                                    <i className="fas fa-child float-left"></i>
+                                    {/* <i className="fas fa-child float-left"></i> */}
+                                    <img src={pendingImg} alt="" className="icon_width" />
                                 </div>
                                 <div className="media-body text-right">
                                     <h3>{summary.total_pending}</h3>
@@ -51,7 +58,7 @@ export default function TicketSummary() {
                         <Card.Body>
                             <div className="media d-flex">
                                 <div className="align-self-center">
-                                    <i className="fas fa-child float-left"></i>
+                                    <img src={processingImg} alt="" className="icon_width" />
                                 </div>
                                 <div className="media-body text-right">
                                     <h3>{summary.total_processing}</h3>
@@ -66,7 +73,7 @@ export default function TicketSummary() {
                         <Card.Body>
                             <div className="media d-flex">
                                 <div className="align-self-center">
-                                    <i className="fas fa-child float-left"></i>
+                                    <img src={snoozedImg} alt="" className="icon_width" />
                                 </div>
                                 <div className="media-body text-right">
                                     <h3>{summary.total_snoozed}</h3>
@@ -81,7 +88,7 @@ export default function TicketSummary() {
                         <Card.Body>
                             <div className="media d-flex">
                                 <div className="align-self-center">
-                                    <i className="fas fa-child float-left"></i>
+                                    <img src={completedImg} alt="" className="icon_width" />
                                 </div>
                                 <div className="media-body text-right">
                                     <h3>{summary.total_completed}</h3>

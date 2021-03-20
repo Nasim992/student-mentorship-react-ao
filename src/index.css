@@ -16,7 +16,6 @@
   border-color: #4e73df;
 }
 
-
 .text-primary {
 	color: #0F243C !important;
 }
@@ -52,6 +51,10 @@
     font-weight: bold;
 }
 
+/* icon with image */
+  .icon_width{
+    width: 40px;
+  }
 
 /* ---------------------------------------------------------------------------- */
 /* mobile only  */
@@ -70,6 +73,7 @@
     scrollbar-width: thin;          /* "auto" or "thin" */
     /* scrollbar-color: blue orange;   scroll thumb and track */
   } 
+  
 }
 /* ---------------------------------------------------------------------------- */
 /* desktop only  */
@@ -86,5 +90,4 @@
     overflow-y: scroll;
     scrollbar-width: thin;          /* "auto" or "thin" */
   } 
-
 }

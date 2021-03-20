@@ -21,7 +21,7 @@ export default function SearchTicket() {
 
     const searchNow = async () => {
         try {
-            const res = await axios.get(`support/search/${text}`)
+            const res = await axios.get(`support/search/${text}/${CUser.getCurrentuser() && CUser.getCurrentuser().id}`)
             setList(res.data.response)
         } catch (e) {
             console.log(e)
