@@ -1,4 +1,5 @@
 const Define = {
+    API_BASE_URL: "http://localhost:2727/",//http://localhost:2727/,http://api.freeconvert.xyz/
     //time format
     FORMAT_DATE: "DD-MM-YYYY",
     //bootstrap color

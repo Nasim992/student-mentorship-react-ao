@@ -9,19 +9,24 @@ import snoozedImg from '../../../assets/img/snoozed.svg'
 import processingImg from '../../../assets/img/processing.svg'
 
 export default function TicketSummary() {
-
-    const [summary, setSummary] = useState({
+    const init = {
         total_pending: 0,
         total_processing: 0,
         total_snoozed: 0,
         total_completed: 0,
-    })
+    }
+    const [summary, setSummary] = useState(init)
 
     useEffect(() => {
         const source = axios.CancelToken.source();
         const load = async () => {
             const res = await axios.get(`support/summary/ao/${CUser.getCurrentuser() && CUser.getCurrentuser().id}`, { cancelToken: source.token })
-            setSummary(res.data.response)
+            console.log(res)
+            if (!res.data.error) {
+                setSummary(res.data.response)
+            } else {
+                setSummary(init)
+            }
         }
         load()
         return () => {

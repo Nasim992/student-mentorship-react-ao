@@ -14,6 +14,7 @@ export default function ProtectedPage({ children }) {
                 //give true or false
                 if (!ck.data) {
                     //so clear the localStorage
+                    console.log("protected, 1,", "ck.data" + ck.data);
                     CUser.logOut()
                     setAuthV(false)
                 } else {
@@ -21,21 +22,16 @@ export default function ProtectedPage({ children }) {
                         setAuthV(true)
                     } else {
                         CUser.logOut()
+                        console.log("protected, 2,", ck.data);
                         setAuthV(false)
                     }
-                    // if (CUser.getCurrentuser() === undefined) {
-
-                    // } else {
-
-                    // }
-
                 }
                 setLoading(false)
 
             } catch (e) {
                 //so clear the localStorage
                 CUser.logOut()
-                console.log(e.message);
+                console.log("protected, 3,", e.message);
                 setAuthV(false)
                 setLoading(false)
             }
@@ -52,6 +48,7 @@ export default function ProtectedPage({ children }) {
                 </>
             )
         } else {
+            { console.log("protected so redirect to login") }
             return <Redirect to={URL.SIGN_IN}></Redirect>
         }
     } else {
