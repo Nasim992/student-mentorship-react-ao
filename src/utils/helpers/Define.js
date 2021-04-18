@@ -1,7 +1,7 @@
 const Define = {
-    API_BASE_URL: "http://localhost:2727/",//http://localhost:2727/,http://api.freeconvert.xyz/
+    API_BASE_URL: "http://54.237.56.192:2727/",//http://localhost:2727/,http://api.freeconvert.xyz/,http://54.237.56.192:2727/
     //time format
-    FORMAT_DATE: "DD-MM-YYYY",
+    FORMAT_DATE: "DD-MM-YYYY, hh:mm A",
     //bootstrap color
     BT_PRIMARY: "primary",
     BT_DANGER: "danger",
@@ -18,5 +18,10 @@ const Define = {
     //define
     NOT_SET: "NOT_SET",
     C_USER: "AO_C_USER",
+    //socket
+    CREATE_TICKET: "CREATE_TICKET",
+    JOIN_TICKET: "JOIN_TICKET",
+    CREATE_MESSAGE: "CREATE_MESSAGE",
+    RECIEVE_MESSAGE: "RECIEVE_MESSAGE",
 }
 export default Define

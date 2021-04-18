@@ -63,7 +63,7 @@ export default function SignUp() {
 
 
     //check alrady logged in or not
-    if (CUser.isLoggedIn()) {
+    if (CUser?.isLoggedIn()) {
         return <Redirect to={URL.HOME}></Redirect>
     }
 

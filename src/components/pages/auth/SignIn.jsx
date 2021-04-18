@@ -40,7 +40,7 @@ export default function SignIn() {
             const response = await new AuthAction(authDispatch).login(ao.email, ao.password)
             console.log(response)
             app.STOP_LOADING()
-            setAo(initvalue)
+            //setAo(initvalue)
             history.push(URL.HOME)
         } catch (e) {
             app.SET_RESPONSE(Response(false, "Sign In failed.", e.message, Define.BT_DANGER))

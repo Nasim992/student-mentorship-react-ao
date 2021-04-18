@@ -1,11 +1,11 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useRef } from 'react'
 import Main from '../../layouts/dashborad/Main'
 import ProtectedPage from '../../layouts/ProtectedPage'
 
 import '../../../assets/css/chat.css'
 
 import ListAction from './../../../utils/context/actions/ListAction';
-import { DispatchContext, StateContext } from './../../../utils/context/MainContext';
+import { DispatchContext } from './../../../utils/context/MainContext';
 import CUser from './../../../utils/helpers/CUser';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
@@ -19,20 +19,25 @@ import { Button, Card, Container, Row } from 'react-bootstrap';
 import MyModal from '../../layouts/modal/MyModal';
 import Input from '../../layouts/form/Input';
 import moment from 'moment';
+import useTicketSocket from './../../../utils/hooks/useTicketSocket';
 
 
 export default function SingleTicket({ match }) {
-    const { chats } = useContext(StateContext)
-    const { chatsDispatch, appDispatch } = useContext(DispatchContext)
+    const bottomInit = useRef()
+    const bottom = useRef()
+    const bottomRecive = useRef()
+    const { appDispatch } = useContext(DispatchContext)
     //params
     const { type, id } = match.params
 
     //local state
+    const [chats, setChats, joinTicket, createMessage] = useTicketSocket()
     const [ticket, setTicket] = useState({})
     const [student, setStudent] = useState({})
     const [aos, setAos] = useState([])
     const [ao_id, setAo_id] = useState(CUser.getCurrentuser() && CUser.getCurrentuser().id)
     const [message, setMessage] = useState("")
+
     let initSnoozed = {
         ticket_state: Define.TICKET_SNOOZED,
         reschedule_reason: "",
@@ -43,10 +48,20 @@ export default function SingleTicket({ match }) {
 
     const history = useHistory()
 
+    //init the socket
+    useEffect(() => {
+        if (ticket)
+            //join the socket 
+            joinTicket(ticket)
+    }, [ticket])
+
+    useEffect(() => {
+        bottom?.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })
+    }, [chats.length])
+
     //load chat list
     useEffect(() => {
-        const listAction = new ListAction(chatsDispatch)
-        const token = listAction.getSource()
+
         const load = async () => {
             try {
                 //load the ticket first
@@ -60,14 +75,19 @@ export default function SingleTicket({ match }) {
                         //console.log(aores.data.response)
                         setAos(aores.data.response)
                     }
+
                     //load student info
                     const studentRes = await axios.get(`support/get-one/students/student_id/${ticketObj.response.student_id}/`)
                     const studentObj = studentRes.data
-                    console.log("here it is: ", studentObj.response)
+                    //console.log("here it is: ", studentObj.response)
                     setStudent(studentObj.response)
-                    //if valid then load chats
-                    const res = await listAction.getAll(`support/get/ticket_chat/ticket_id/${id}/`)
-                    //console.log(res, chats);
+                    //if valid then load init chats
+
+                    const res = await axios.get(`support/get/ticket_chat/ticket_id/${id}/`)
+                    setChats([...res.data.response])
+                    bottomInit.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })
+                    //console.log(res.data.response);
+
                 } else {
                     history.push(URL.TICKET_LIST + "/" + Define.TICKET_PENDING)
                 }
@@ -81,10 +101,10 @@ export default function SingleTicket({ match }) {
 
         //clean up
         return () => {
-            token.cancel()
+
         }
 
-    }, [chats.length])//chats.length
+    }, [])//chats.length
 
     //add new chat
     const addNew = async () => {
@@ -96,15 +116,15 @@ export default function SingleTicket({ match }) {
         const chatObj = {
             sender_id: CUser.getCurrentuser() && CUser.getCurrentuser().id,
             message: message,
-            ticket_id: id
+            ticket_id: id,
+            created_at: moment(new Date()).format()
         }
+        chatObj.id = new Date().getTime()
+        createMessage(chatObj)
 
-
-        const listAction = new ListAction(chatsDispatch)
-        const res = await listAction.addData('support/create-message', chatObj)
         setMessage("")
-        //scroll down
-        // window.scrollTo(0, document.querySelector(".chats").scrollHeight);
+        //bottom.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })
+
         //console.log(res)
 
     }
@@ -212,8 +232,8 @@ export default function SingleTicket({ match }) {
                                             <div className="chats height-overflow-y" >
                                                 {chats.length > 0 && [].concat(chats).reverse().map(chat => {
                                                     //
-                                                    // { console.log(chat.sender_id, "=", (CUser.getCurrentuser() && CUser.getCurrentuser().id.toString())) }
-                                                    const classV = (chat.sender_id === (CUser.getCurrentuser() && CUser.getCurrentuser().id.toString())) ? "chat" : "chat chat-left"
+                                                    { console.log(chat.sender_id.toString(), "=", (CUser.getCurrentuser() && CUser.getCurrentuser().id.toString())) }
+                                                    const classV = (chat.sender_id.toString() === (CUser.getCurrentuser() && CUser.getCurrentuser().id.toString())) ? "chat" : "chat chat-left"
 
                                                     return <div key={chat.id} className={classV}>
                                                         <div className="chat-avatar">
@@ -225,13 +245,16 @@ export default function SingleTicket({ match }) {
                                                         <div className="chat-body">
                                                             <div className="chat-content">
                                                                 <p>{chat.message}</p>
-                                                                <time className="chat-time" dateTime={chat.created_at}>{chat.created_at}</time>
+                                                                <time className="chat-time">{moment(chat.created_at).format(Define.FORMAT_DATE)}</time>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 })}
-
+                                                <div ref={bottomInit}></div>
+                                                <div ref={bottom} style={{ marginTop: "30px" }}></div>
+                                                <div ref={bottomRecive} style={{ marginTop: "30px" }}></div>
                                             </div>
+
                                         </div>
 
                                         <div className="panel-footer">

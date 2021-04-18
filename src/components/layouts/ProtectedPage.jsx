@@ -5,7 +5,7 @@ import { Redirect } from 'react-router';
 import URL from './../../utils/helpers/URL';
 
 export default function ProtectedPage({ children }) {
-    const [authv, setAuthV] = useState(undefined)
+    const [authv, setAuthV] = useState(false)
     const [loading, setLoading] = useState(true)
     useEffect(() => {
         const ckLog = async () => {
