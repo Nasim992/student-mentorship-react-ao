@@ -4,7 +4,6 @@ import ProtectedPage from '../../layouts/ProtectedPage'
 
 import '../../../assets/css/chat.css'
 
-import ListAction from './../../../utils/context/actions/ListAction';
 import { DispatchContext } from './../../../utils/context/MainContext';
 import CUser from './../../../utils/helpers/CUser';
 import axios from 'axios';
@@ -20,12 +19,10 @@ import MyModal from '../../layouts/modal/MyModal';
 import Input from '../../layouts/form/Input';
 import moment from 'moment';
 import useTicketSocket from './../../../utils/hooks/useTicketSocket';
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 
 export default function SingleTicket({ match }) {
-    const bottomInit = useRef()
-    const bottom = useRef()
-    const bottomRecive = useRef()
     const { appDispatch } = useContext(DispatchContext)
     //params
     const { type, id } = match.params
@@ -55,9 +52,6 @@ export default function SingleTicket({ match }) {
             joinTicket(ticket)
     }, [ticket])
 
-    useEffect(() => {
-        bottom?.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })
-    }, [chats.length])
 
     //load chat list
     useEffect(() => {
@@ -85,7 +79,7 @@ export default function SingleTicket({ match }) {
 
                     const res = await axios.get(`support/get/ticket_chat/ticket_id/${id}/`)
                     setChats([...res.data.response])
-                    bottomInit.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })
+                    //bottomInit.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })
                     //console.log(res.data.response);
 
                 } else {
@@ -97,22 +91,15 @@ export default function SingleTicket({ match }) {
             }
         }
         load()
-        //console.log("singleticket useeffect")
 
-        //clean up
-        return () => {
-
-        }
-
-    }, [])//chats.length
+    }, [])
 
     //add new chat
-    const addNew = async () => {
-
+    const addNew = async (e) => {
+        e.preventDefault();
         if (!message && message === "") {
             return
         }
-
         const chatObj = {
             sender_id: CUser.getCurrentuser() && CUser.getCurrentuser().id,
             message: message,
@@ -121,12 +108,7 @@ export default function SingleTicket({ match }) {
         }
         chatObj.id = new Date().getTime()
         createMessage(chatObj)
-
         setMessage("")
-        //bottom.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })
-
-        //console.log(res)
-
     }
 
     const assignAO = () => {
@@ -229,7 +211,7 @@ export default function SingleTicket({ match }) {
                                 <Row>
                                     <div className="col-md-9 col-xs-12">
                                         <div className="panel-body">
-                                            <div className="chats height-overflow-y" >
+                                            <ScrollToBottom className="ov-y" >
                                                 {chats.length > 0 && [].concat(chats).reverse().map(chat => {
                                                     //
                                                     { console.log(chat.sender_id.toString(), "=", (CUser.getCurrentuser() && CUser.getCurrentuser().id.toString())) }
@@ -250,10 +232,7 @@ export default function SingleTicket({ match }) {
                                                         </div>
                                                     </div>
                                                 })}
-                                                <div ref={bottomInit}></div>
-                                                <div ref={bottom} style={{ marginTop: "30px" }}></div>
-                                                <div ref={bottomRecive} style={{ marginTop: "30px" }}></div>
-                                            </div>
+                                            </ScrollToBottom>
 
                                         </div>
 
@@ -269,7 +248,10 @@ export default function SingleTicket({ match }) {
                                                     </div>
                                                     :
                                                     <div className="input-group">
-                                                        <input type="text" className="form-control" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Write Message..." disabled={type === Define.TICKET_PROCESSING ? false : true} />
+                                                        <input type="text" className="form-control" value={message}
+                                                            onChange={(e) => setMessage(e.target.value)} placeholder="Write Message..." disabled={type === Define.TICKET_PROCESSING ? false : true}
+                                                            onKeyPress={(ee) => ee.key === 'Enter' ? addNew(ee) : null}
+                                                        />
                                                         <span className="input-group-btn">
                                                             <button onClick={addNew} className="btn btn-primary ml-2" type="button">Send</button>
                                                         </span>

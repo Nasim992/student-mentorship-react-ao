@@ -13,7 +13,7 @@ export default function useTicketSocket() {
         socket = io(Define.API_BASE_URL, { transport: ["websocket"] })
         //clean up the socket
         return () => {
-            socket.emit(Define.DISCONNECT)
+            //socket.emit(Define.DISCONNECT)
             socket.off()
         }
     }, [])
@@ -23,8 +23,6 @@ export default function useTicketSocket() {
         if (socket) {
             //on page load you joined on room this
             socket.emit(Define.JOIN_TICKET, ticket)
-        } else {
-            console.log("no socket")
         }
     }
     //create message
@@ -33,8 +31,6 @@ export default function useTicketSocket() {
             //on page load you joined on room this
             socket.emit(Define.CREATE_MESSAGE, message)
             setList([message, ...list])
-        } else {
-            console.log("no socket")
         }
     }
     //recieved message
@@ -42,7 +38,7 @@ export default function useTicketSocket() {
         socket.on(Define.RECIEVE_MESSAGE, (message) => {
             setList([message, ...list])
         })
-    }, [list])
+    })
 
     return [list, setList, joinTicket, createMessage]
 }
