@@ -9,5 +9,6 @@ const URL = {
     TICKET_COMPLETED: "/completed",
     SEARCH_TICKET: "/search-ticket",
     CONTRIBUTOR: "/contributor",
+    NOTICE_LIST:"/notice"
 }
 export default URL
