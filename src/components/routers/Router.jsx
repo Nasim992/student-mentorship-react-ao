@@ -9,6 +9,7 @@ import SingleTicket from './../pages/ticket/SingleTicket';
 import TicketList from '../pages/ticket/TicketList';
 import Search from './../pages/ticket/Search';
 import Contributor from './../pages/contributor/Contributor';
+import Notice from "../pages/notice/Notice";
 
 
 export default function Router() {
@@ -22,6 +23,7 @@ export default function Router() {
                 <Route exact path={URL.TICKET_LIST + "/:type/:id"} component={SingleTicket}></Route>
                 <Route exact path={URL.SEARCH_TICKET} component={Search}></Route>
                 <Route exact path={URL.CONTRIBUTOR} component={Contributor}></Route>
+                <Route exact path={URL.NOTICE_LIST} component={Notice}></Route>
                 <Route default component={NotFound}></Route>
             </Switch>
         </BrowserRouter>
