@@ -7,12 +7,12 @@ import NoticeUpdate from "./NoticeUpdate";
 import NoticeView from "./NoticeView";
 import AppAction from "./../../../utils/context/actions/AppAction";
 import ListAction from "./../../../utils/context/actions/ListAction";
-import { DispatchContext,StateContext } from "./../../../utils/context/MainContext";
+import { DispatchContext, StateContext } from "./../../../utils/context/MainContext";
 import Response from "./../../../utils/helpers/Response";
 import Helper from "../../../utils/helpers/Helper";
 import CUser from "../../../utils/helpers/CUser";
 
-export default function NoticeTable() {
+export default function NoticeTable({ page }) {
   const [show, setShow] = useState({ view: false, edit: false, delete: false });
   const [viewItem, setViewItem] = useState(null);
 
@@ -36,7 +36,7 @@ export default function NoticeTable() {
 
   const onSubmit = async () => {
     //hide the modal
-     setShow(false);
+    setShow(false);
     //validation
     const appAction = new AppAction(appDispatch);
     if (!Helper.validateField(viewItem.title, viewItem.description)) {
@@ -51,8 +51,8 @@ export default function NoticeTable() {
     appAction.SET_RESPONSE(res);
   };
 
-      //global state
-      const { notice_list } = useContext(StateContext);
+  //global state
+  const { notice_list } = useContext(StateContext);
 
   // Getting Notice_list
   useEffect(() => {
@@ -60,27 +60,28 @@ export default function NoticeTable() {
     const listAction = new ListAction(notice_listDispatch)
     const token = listAction.getSource()
     try {
-        const uid = CUser.getCurrentuser() && CUser.getCurrentuser().id
-        const load = async () => {
-            try {
-                if (uid) {
-                    const res = await listAction.getAll(`notice/get-all/1`)
-                }
-            } catch (e) {
-                console.log(e);
-            }
+      const uid = CUser.getCurrentuser() && CUser.getCurrentuser().id
+      const load = async () => {
+        try {
+          if (uid) {
+            const res = await listAction.getAll(`notice/get-all/${page}`)
+            console.log("notice list: ", res)
+          }
+        } catch (e) {
+          console.log(e);
         }
-        load()
+      }
+      load()
     } catch (e) {
-        console.log(e)
+      console.log(e)
     }
 
     //clean up
     return () => {
-        token.cancel()
+      token.cancel()
     }
 
-}, [notice_list.length])
+  }, [page, notice_list.length])
 
   return (
     <div>
