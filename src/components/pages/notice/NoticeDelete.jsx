@@ -9,7 +9,7 @@ import Response from "./../../../utils/helpers/Response";
 import '../../../assets/css/dashboard.css';
 import ModalDelete from "../../layouts/modal/ModalDelete";
 
-export default function NoticeUpdate({ show, setShow,viewItem }) {
+export default function NoticeUpdate({ show, setShow, viewItem }) {
   const { appDispatch, notice_listDispatch } = useContext(DispatchContext);
 
   const [Notice, setNotice] = useState(viewItem);
@@ -27,7 +27,7 @@ export default function NoticeUpdate({ show, setShow,viewItem }) {
     }
     //call api
     const listAction = new ListAction(notice_listDispatch);
-    const res = await listAction.deleteData(`notice/${viewItem.id}`, Notice);
+    const res = await listAction.deleteData(`notice/${viewItem.id}`, Notice, "id");
     appAction.SET_RESPONSE(res);
   };
 

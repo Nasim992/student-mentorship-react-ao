@@ -47,7 +47,7 @@ export default function NoticeTable({ page }) {
     }
     //call api
     const listAction = new ListAction(notice_listDispatch);
-    const res = await listAction.updateData(`notice/${viewItem.id}`, viewItem);
+    const res = await listAction.updateData(`notice/${viewItem.id}`, viewItem, "id");
     appAction.SET_RESPONSE(res);
   };
 
